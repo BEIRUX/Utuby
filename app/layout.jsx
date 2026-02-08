@@ -16,9 +16,10 @@ const dmSans = DM_Sans({
 
 const SITE_URL = "https://utuby.vercel.app";
 const SITE_NAME = "Utuby";
-const TITLE = "Utuby — Free YouTube Transcript Extractor";
+const TITLE =
+  "YouTube Transcript Extractor — Free, Instant, No Sign-Up | Utuby";
 const DESCRIPTION =
-  "Extract clean, timestamped transcripts from any YouTube video instantly. Free, open-source, no sign-up. LLM-optimized exports with MCP server for AI tools like Claude Code.";
+  "Paste any YouTube link and get the full transcript in seconds. Copy as clean text, timestamped, or download as SRT. 100% free, no account needed, works on any video.";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -28,20 +29,26 @@ export const metadata = {
   },
   description: DESCRIPTION,
   keywords: [
-    "youtube transcript",
     "youtube transcript extractor",
+    "youtube transcript",
+    "yt transcript",
+    "yt to transcript",
+    "youtube video to text",
+    "extract youtube transcript",
+    "get youtube transcript",
+    "copy youtube transcript",
+    "youtube transcript copy paste",
+    "convert youtube to text",
+    "youtube subtitle downloader",
     "youtube captions",
     "youtube subtitles",
-    "extract youtube transcript",
     "video transcript",
     "youtube to text",
-    "youtube transcript copy",
-    "LLM transcript",
-    "MCP server youtube",
-    "claude code youtube",
     "free transcript extractor",
+    "youtube transcript generator",
+    "youtube transcript online",
   ],
-  authors: [{ name: "BEIRUX", url: "https://github.com/BEIRUX" }],
+  authors: [{ name: "BEIRUX", url: "https://beirux.com" }],
   creator: "BEIRUX",
   publisher: "BEIRUX",
   openGraph: {
@@ -49,13 +56,15 @@ export const metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: TITLE,
-    description: DESCRIPTION,
+    title: "Paste a YouTube Link, Get the Transcript — Utuby",
+    description:
+      "Free YouTube transcript extractor. Clean text, timestamps, or SRT — copy or download in one click. No sign-up required.",
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: "Paste a YouTube Link, Get the Transcript — Utuby",
+    description:
+      "Free YouTube transcript extractor. Clean text, timestamps, or SRT — copy or download in one click. No sign-up required.",
   },
   robots: {
     index: true,
@@ -74,34 +83,78 @@ export const metadata = {
 };
 
 // JSON-LD structured data for rich search results
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: SITE_NAME,
-  url: SITE_URL,
-  description: DESCRIPTION,
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "Any",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Utuby — YouTube Transcript Extractor",
+    alternateName: ["Utuby", "YT Transcript Extractor", "YouTube to Text"],
+    url: SITE_URL,
+    description: DESCRIPTION,
+    applicationCategory: "UtilityApplication",
+    operatingSystem: "Any",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    author: {
+      "@type": "Organization",
+      name: "BEIRUX",
+      url: "https://beirux.com",
+    },
+    featureList: [
+      "Extract YouTube transcripts instantly",
+      "Copy transcript as clean text for AI and LLMs",
+      "Timestamped transcript with clickable timestamps",
+      "Download as SRT subtitle file",
+      "Download as plain text file",
+      "Search within transcripts",
+      "Multi-language caption support",
+      "Batch extract from multiple videos",
+      "Extract full playlists",
+      "Token count estimation for AI context windows",
+    ],
   },
-  author: {
-    "@type": "Organization",
-    name: "BEIRUX",
-    url: "https://github.com/BEIRUX",
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How do I get a transcript from a YouTube video?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Paste any YouTube video URL into Utuby and click Extract. The full transcript appears in seconds. You can copy it as clean text, view it with timestamps, or download it as a TXT or SRT file. No account or sign-up required.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this YouTube transcript extractor free?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, Utuby is 100% free with no limits, no ads, and no sign-up. It is open-source and will always be free to use.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can I copy a YouTube transcript as plain text?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Utuby offers a one-click 'Copy for LLM' button that gives you the full transcript as clean flowing text with no timestamps — ready to paste into ChatGPT, Claude, or any other tool. You can also copy with timestamps or download as a file.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Does it work with any YouTube video?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Utuby works with any YouTube video that has captions available — including auto-generated captions. It supports all languages and you can choose which language to extract.",
+        },
+      },
+    ],
   },
-  featureList: [
-    "Extract YouTube transcripts instantly",
-    "LLM-optimized clean text export",
-    "Timestamped transcript export",
-    "SRT subtitle file download",
-    "MCP server for AI tool integration",
-    "Token count estimation",
-    "Multi-language caption support",
-  ],
-};
+];
 
 export default function RootLayout({ children }) {
   return (
@@ -110,10 +163,13 @@ export default function RootLayout({ children }) {
       className={`dark ${instrumentSerif.variable} ${dmSans.variable}`}
     >
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {jsonLd.map((block, i) => (
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(block) }}
+          />
+        ))}
       </head>
       <body className="font-[family-name:var(--font-body)] antialiased">
         {children}
