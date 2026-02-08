@@ -14,7 +14,7 @@ export function Footer() {
         <span>Free & open. No ads. No tracking.</span>
         <span className="text-violet-500/40">|</span>
         <a
-          href="https://github.com/BEIRUX"
+          href="https://beirux.com"
           target="_blank"
           rel="noopener noreferrer"
           className="transition-colors hover:text-violet-400"
