@@ -88,12 +88,12 @@ export async function POST(request) {
       },
     });
   } catch (error) {
-    console.error("Transcript extraction error:", error);
+    console.error("Transcript extraction error:", error?.message || error);
 
     return Response.json(
       {
         success: false,
-        error: ERROR_MESSAGES[ERROR_CODES.EXTRACTION_FAILED],
+        error: error?.message || ERROR_MESSAGES[ERROR_CODES.EXTRACTION_FAILED],
         code: ERROR_CODES.EXTRACTION_FAILED,
       },
       { status: 500 }
