@@ -101,16 +101,32 @@ export function McpPanel() {
           {/* Available tools */}
           <div className="space-y-2">
             <p className="text-[11px] font-medium text-foreground/50">
-              Tools your LLM gets
+              6 tools your LLM gets
             </p>
             <div className="space-y-1.5">
               <ToolBadge
                 name="get_transcript"
-                desc="Full transcript — clean, timestamped, or SRT"
+                desc="Full transcript — clean, summary, timestamped, or SRT"
               />
               <ToolBadge
                 name="get_video_info"
-                desc="Title, channel, duration, views, available captions"
+                desc="Metadata, chapters, duration, captions"
+              />
+              <ToolBadge
+                name="search_transcript"
+                desc="Search within a transcript — returns matching segments"
+              />
+              <ToolBadge
+                name="get_transcripts"
+                desc="Batch extract from multiple videos at once"
+              />
+              <ToolBadge
+                name="get_playlist"
+                desc="Extract all transcripts from a playlist"
+              />
+              <ToolBadge
+                name="get_comments"
+                desc="Fetch top comments for sentiment analysis"
               />
             </div>
           </div>
