@@ -122,38 +122,43 @@ export default function Home() {
   }
 
   return (
-    <div className="noise-overlay relative flex min-h-svh flex-col items-center px-4 sm:px-6">
+    <main className="noise-overlay relative flex min-h-svh flex-col items-center px-4 sm:px-6">
       <BackgroundOrbs />
 
       {/* ── Hero + Input ── */}
-      <motion.div
-        layout
+      <header
         className="flex w-full flex-col items-center"
         style={{ maxWidth: hasResults ? "72rem" : "48rem" }}
-        animate={{
-          paddingTop: hasResults ? "2rem" : "min(22vh, 10rem)",
-        }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <BrandHero hasResults={hasResults} />
-
         <motion.div
           layout
-          className="mt-8 w-full max-w-3xl"
-          animate={{ marginTop: hasResults ? "0.5rem" : "2rem" }}
+          className="flex w-full flex-col items-center"
+          animate={{
+            paddingTop: hasResults ? "2rem" : "min(22vh, 10rem)",
+          }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <UrlInput
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-            onReset={reset}
-          />
+          <BrandHero hasResults={hasResults} />
+
+          <motion.div
+            layout
+            className="mt-8 w-full max-w-3xl"
+            animate={{ marginTop: hasResults ? "0.5rem" : "2rem" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <UrlInput
+              onSubmit={handleSubmit}
+              isLoading={isLoading}
+              onReset={reset}
+            />
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </header>
 
       {/* ── Results area ── */}
-      <div
+      <section
         ref={resultsRef}
+        aria-label="Transcript results"
         className="mt-5 w-full pb-8"
         style={{ maxWidth: hasResults ? "72rem" : "48rem" }}
       >
@@ -192,24 +197,24 @@ export default function Home() {
               className="flex flex-col lg:flex-row gap-5"
             >
               {/* Left — Transcript content */}
-              <div className="flex-1 min-w-0 space-y-3">
+              <article className="flex-1 min-w-0 space-y-3">
                 <VideoPreview data={data} />
                 <ExportControls data={data} />
                 <TranscriptViewer subtitles={data.subtitles} />
-              </div>
+              </article>
 
               {/* Right — MCP panel */}
-              <div className="w-full lg:w-80 xl:w-96 shrink-0">
+              <aside className="w-full lg:w-80 xl:w-96 shrink-0">
                 <div className="lg:sticky lg:top-6">
                   <McpPanel />
                 </div>
-              </div>
+              </aside>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }
