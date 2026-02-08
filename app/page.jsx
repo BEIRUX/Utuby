@@ -9,6 +9,7 @@ import { ExportControls } from "@/components/export-controls";
 import { LoadingState } from "@/components/loading-state";
 import { ErrorDisplay } from "@/components/error-display";
 import { McpPanel } from "@/components/mcp-panel";
+import { FeaturesSection } from "@/components/features-section";
 import { Footer } from "@/components/footer";
 import { useTranscript } from "@/hooks/use-transcript";
 
@@ -154,6 +155,32 @@ export default function Home() {
           </motion.div>
         </motion.div>
       </header>
+
+      {/* ── Landing content (visible before extraction) ── */}
+      <AnimatePresence>
+        {!hasResults && !isLoading && !error && (
+          <motion.section
+            key="landing"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            aria-label="Features and integrations"
+            className="mt-10 w-full max-w-4xl"
+          >
+            <div className="flex flex-col lg:flex-row gap-5">
+              {/* Left — Features grid */}
+              <div className="flex-1 min-w-0">
+                <FeaturesSection />
+              </div>
+              {/* Right — MCP panel */}
+              <div className="w-full lg:w-80 shrink-0">
+                <McpPanel />
+              </div>
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
 
       {/* ── Results area ── */}
       <section

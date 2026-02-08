@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Copy, Check, Terminal, Cpu, Zap, ArrowRight } from "lucide-react";
+import { Copy, Check, Terminal, Cpu, Zap, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const STEPS = [
@@ -10,8 +10,18 @@ const STEPS = [
   { label: "Add to Claude Code", command: "claude mcp add utuby -- node ./mcp/server.mjs" },
 ];
 
-export function McpPanel() {
+const TOOLS = [
+  { name: "get_transcript", desc: "Full transcript — clean, summary, timestamped, or SRT" },
+  { name: "get_video_info", desc: "Metadata, chapters, duration, captions" },
+  { name: "search_transcript", desc: "Search within a transcript" },
+  { name: "get_transcripts", desc: "Batch extract from multiple videos" },
+  { name: "get_playlist", desc: "Extract all transcripts from a playlist" },
+  { name: "get_comments", desc: "Fetch top comments for analysis" },
+];
+
+export function McpPanel({ compact = false }) {
   const [copiedIdx, setCopiedIdx] = useState(null);
+  const [showTools, setShowTools] = useState(false);
 
   async function handleCopy(text, idx) {
     await navigator.clipboard.writeText(text);
@@ -43,29 +53,30 @@ export function McpPanel() {
         </div>
 
         {/* Content */}
-        <div className="relative space-y-4 px-5 py-4">
+        <div className="relative space-y-3.5 px-5 py-4">
           <p className="text-xs leading-relaxed text-foreground/60">
             Connect your AI directly to Utuby. Extract transcripts and video details without a browser — straight from your terminal.
           </p>
 
-          {/* Features */}
-          <div className="space-y-2.5">
-            <Feature
-              icon={<Zap className="h-3 w-3" />}
-              text="Clean transcripts sized for LLM context windows"
-            />
-            <Feature
-              icon={<Terminal className="h-3 w-3" />}
-              text="Works with Claude Code, Claude Desktop, and any MCP client"
-            />
-            <Feature
-              icon={<ArrowRight className="h-3 w-3" />}
-              text="Video metadata, multi-language captions, and token estimates"
-            />
+          {/* Features — inline on compact */}
+          <div className="flex flex-wrap gap-2">
+            {[
+              { icon: Zap, text: "Sized for LLM context" },
+              { icon: Terminal, text: "Claude Code & Desktop" },
+              { icon: ArrowRight, text: "6 tools available" },
+            ].map((f) => (
+              <span
+                key={f.text}
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.05] bg-white/[0.02] px-2.5 py-1 text-[10px] text-foreground/45"
+              >
+                <f.icon className="h-2.5 w-2.5 text-violet-400/60" />
+                {f.text}
+              </span>
+            ))}
           </div>
 
           {/* Setup steps */}
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             <p className="text-[11px] font-medium text-foreground/50">
               Quick setup
             </p>
@@ -98,60 +109,38 @@ export function McpPanel() {
             ))}
           </div>
 
-          {/* Available tools */}
-          <div className="space-y-2">
-            <p className="text-[11px] font-medium text-foreground/50">
-              6 tools your LLM gets
-            </p>
-            <div className="space-y-1.5">
-              <ToolBadge
-                name="get_transcript"
-                desc="Full transcript — clean, summary, timestamped, or SRT"
+          {/* Available tools — collapsible */}
+          <div>
+            <button
+              onClick={() => setShowTools(!showTools)}
+              className="flex w-full items-center justify-between rounded-lg border border-white/[0.04] bg-white/[0.02] px-3 py-2 text-[11px] font-medium text-foreground/50 transition-colors hover:border-violet-500/15 hover:text-foreground/60"
+            >
+              <span>6 tools your LLM gets</span>
+              <ChevronDown
+                className={`h-3 w-3 text-muted-foreground/40 transition-transform ${showTools ? "rotate-180" : ""}`}
               />
-              <ToolBadge
-                name="get_video_info"
-                desc="Metadata, chapters, duration, captions"
-              />
-              <ToolBadge
-                name="search_transcript"
-                desc="Search within a transcript — returns matching segments"
-              />
-              <ToolBadge
-                name="get_transcripts"
-                desc="Batch extract from multiple videos at once"
-              />
-              <ToolBadge
-                name="get_playlist"
-                desc="Extract all transcripts from a playlist"
-              />
-              <ToolBadge
-                name="get_comments"
-                desc="Fetch top comments for sentiment analysis"
-              />
-            </div>
+            </button>
+            {showTools && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                transition={{ duration: 0.2 }}
+                className="mt-2 space-y-1.5"
+              >
+                {TOOLS.map((t) => (
+                  <div
+                    key={t.name}
+                    className="rounded-lg border border-white/[0.04] bg-white/[0.02] px-3 py-1.5"
+                  >
+                    <code className="text-[10.5px] font-mono text-violet-300/70">{t.name}</code>
+                    <p className="text-[10px] text-muted-foreground/40 leading-snug">{t.desc}</p>
+                  </div>
+                ))}
+              </motion.div>
+            )}
           </div>
         </div>
       </div>
     </motion.div>
-  );
-}
-
-function Feature({ icon, text }) {
-  return (
-    <div className="flex items-start gap-2.5">
-      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-violet-500/8 text-violet-400/60">
-        {icon}
-      </div>
-      <span className="text-[11px] leading-relaxed text-foreground/50">{text}</span>
-    </div>
-  );
-}
-
-function ToolBadge({ name, desc }) {
-  return (
-    <div className="rounded-lg border border-white/[0.04] bg-white/[0.02] px-3 py-2">
-      <code className="text-[11px] font-mono text-violet-300/70">{name}</code>
-      <p className="mt-0.5 text-[10px] text-muted-foreground/40">{desc}</p>
-    </div>
   );
 }
